@@ -31,7 +31,7 @@
         ,code_change/4
         ]).
 
--export([format_status/2]).
+-export([format_status/1]).
 
 -include("konami.hrl").
 
@@ -291,11 +291,14 @@ terminate(_Reason, _StateName, #state{call_id=CallId
 code_change(_OldVsn, StateName, State, _Extra) ->
     {'ok', StateName, State}.
 
--spec format_status(any(), any()) -> any().
-format_status(_, [_Dict, #state{call_id=CallId
-                               ,other_leg=OtherLeg
-                               }]) ->
-    [{'data', [{"StateData", {CallId, OtherLeg}}]}].
+%% OTP 25+ gen_statem callback (format_status/2 is deprecated and OTP 28
+%% rejects it under -Werror)
+-spec format_status(map()) -> map().
+format_status(#{data := #state{call_id=CallId
+                              ,other_leg=OtherLeg
+                              }} = Status) ->
+    Status#{data => {CallId, OtherLeg}};
+format_status(Status) -> Status.
 
 %%%=============================================================================
 %%% Internal functions
