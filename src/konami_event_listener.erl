@@ -37,7 +37,7 @@
         ]).
 
 -include("konami.hrl").
--include_lib("kazoo_events/include/kz_hooks.hrl").
+-include_lib("kazoo_hooks/include/kz_hooks.hrl").
 
 -define(SERVER, ?MODULE).
 
