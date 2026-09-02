@@ -290,7 +290,7 @@ relay_to_fsm(CallId, Event, JObj) ->
 relay_to_pids(CallId, JObj) ->
     [begin
          kapps_call_command:relay_event(Pid, JObj),
-         lager:debug("relaying ~p to ~p", [kz_util:get_event_type(JObj), Pid])
+         lager:debug("relaying ~p to ~p", [kz_api:event_type(JObj), Pid])
      end
      || Pid <- pids_for_callid(CallId)
     ].
